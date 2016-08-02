@@ -2,7 +2,7 @@
 namespace ToolClass;
 
 /**
-* String 工具
+* HTTP 工具
 */
 class Http
 {
