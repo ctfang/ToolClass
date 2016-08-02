@@ -4,7 +4,7 @@ namespace ToolClass;
 /**
 * String 工具
 */
-class HttpTool
+class Http
 {
     /**
      * 发送post请求
@@ -12,7 +12,8 @@ class HttpTool
      * @param  array $data  发送数据
      * @return string       
      */
-    static public function post($url,$data){
+    static public function post($url,$data)
+    {
         $header [] = "content-type: application/x-www-form-urlencoded; charset=UTF-8";
         if(is_array($data)) $data = http_build_query($data);
         $ch = curl_init ();
@@ -44,7 +45,8 @@ class HttpTool
     *        bool   0 只请求 1 返回状态吗 2 返回http数据
     * @return mixed
     */
-    public function fsockurl($strUrl,$conf ){
+    public function fsockurl($strUrl,$conf )
+    {
         session_write_close();// 文件锁
         $url        = parse_url( $strUrl );
         $conf_arr = array(
@@ -74,7 +76,8 @@ class HttpTool
      * 显示HTTP Header 信息
      * @return string
      */
-    static function getHeaderInfo($header='',$echo=true) {
+    static function getHeaderInfo($header='',$echo=true) 
+    {
         ob_start();
         $headers    = getallheaders();
         if(!empty($header)) {
@@ -98,7 +101,8 @@ class HttpTool
      * HTTP Protocol defined status codes
      * @param int $num
      */
-    static function sendHttpStatus($code) {
+    static function sendHttpStatus($code) 
+    {
         static $_status = array(
             // Informational 1xx
             100 => 'Continue',
