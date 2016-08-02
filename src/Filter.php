@@ -7,16 +7,17 @@ namespace ToolClass;
 class Filter
 {
     /**
-     * 验证是否是邮件格式
+     * 手机验证
      * @param  string  $variable 
      * @return boolean           
      */
-    static public function is_email($variable)
+    static public function is_phone($variable)
     {
-        if( !filter_var($variable, FILTER_VALIDATE_EMAIL) ){
+        if( !preg_match("/^1[34578]{1}\d{9}$/",$variable) ){  
             return false;
+        }else{  
+            return true;
         }
-        return true;
     }
     /**
      * 整数验证
@@ -37,6 +38,24 @@ class Filter
                 return false;
             }
             return true;
+        }
+    }
+    /**
+     * 简单只需要一个参数的 filter_var 过滤
+     * @param  string   $func  调用方法
+     * @param  array    $param 参数
+     * @return boolean        
+     */
+    public static function __callStatic($func, $param)
+    {
+        $filter = 'validate_'.end( explode('is_', $func) );
+        if( in_array($filter,filter_list()) ){
+            if( !filter_var($param['0'], filter_id($filter)) ){
+                return false;
+            }
+            return true;
+        }else{
+            die('没有'.$func);
         }
     }
 }
