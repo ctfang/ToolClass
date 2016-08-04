@@ -6,6 +6,12 @@ namespace ToolClass;
 */
 class User
 {
+    /**
+     * 验证用户名
+     * @param  string  $string 用户名
+     * @param  array   $config 配置
+     * @return boolean         
+     */
     static public function is_username( $string,$config=[] )
     {
         $default_con = [
@@ -22,8 +28,19 @@ class User
         }
         return true;
     }
-    static public function is_password( $string,$config=[] )
+    /**
+     * 验证用户密码
+     * @param  string  $value  密码
+     * @param  integer $minLen 最短
+     * @param  integer $maxLen 最长
+     * @return boolean         
+     */
+    static public function is_password( $value,$minLen=5,$maxLen=16 )
     {
-        
+        $match='/^[\\~!@#$%^&*()-_=+|{}\[\],.?\/:;\'\"\d\w]{'.$minLen.','.$maxLen.'}$/';
+        $v = trim($value);
+        if(empty($v)) 
+            return false;
+        return preg_match($match,$v);
     }
 }

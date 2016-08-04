@@ -18,5 +18,5 @@ $value = Filter::is_ip( '192.168.1.1' );
 var_dump( $value );
 
 
-$value = Filter::is_phone( '15189046469' );
+$value = Filter::is_mobile( '15189046469' );
 var_dump( $value );

@@ -11,7 +11,7 @@ class Filter
      * @param  string  $variable 
      * @return boolean           
      */
-    static public function is_phone($variable)
+    static public function is_mobile($variable)
     {
         if( !preg_match("/^1[34578]{1}\d{9}$/",$variable) ){  
             return false;
@@ -57,5 +57,31 @@ class Filter
         }else{
             die('没有'.$func);
         }
+    }
+    /**
+     * 验证身份证号码
+     * @param string $value
+     * @param string $match
+     * @return boolean
+     */
+    public static function is_idcard($value,$match='/^\d{6}((1[89])|(2\d))\d{2}((0\d)|(1[0-2]))((3[01])|([0-2]\d))\d{3}(\d|X)$/i'){
+        $v = trim($value);
+        if(empty($v)) 
+            return false;
+        else if(strlen($v)>18) 
+            return false;
+        return preg_match($match,$v);
+    }
+    /**
+     * 验证邮政编码
+     * @param string $value
+     * @param string $match
+     * @return boolean
+     */
+    public static function is_postcode($value,$match='/\d{6}/'){
+        $v = trim($value);
+        if(empty($v)) 
+            return false;
+        return preg_match($match,$v);
     }
 }

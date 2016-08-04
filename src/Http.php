@@ -33,7 +33,6 @@ class Http
     }
    /**
     * 模拟post请求
-    * @static
     * @access public
     * @param string $url 远程URL
     * @param array $conf 其他配置信息
