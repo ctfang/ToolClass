@@ -14,7 +14,6 @@
             "ToolClass\\": "src/"
         },
         "files": [
-            "src/config.php"
         ]
     }
 }
