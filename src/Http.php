@@ -7,6 +7,22 @@ namespace ToolClass;
 class Http
 {
     /**
+     * 当前url
+     * @return [type] [description]
+     */
+    static public function newUrl(){
+        $url = (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == '443') ? 'https://' : 'http://';
+        $url .= $_SERVER['HTTP_HOST'];
+        $url .= isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : urlencode($_SERVER['PHP_SELF']) . '?' . urlencode($_SERVER['QUERY_STRING']);
+        return $url;
+    }
+    static public function toParam($array){
+        foreach ($array as $key=>$value){
+            $arr[] = $key.'='.$value;
+        }
+        return implode('&',$arr);
+    }
+    /**
      * 发送post请求
      * @param  string $url  请求地址
      * @param  array $data  发送数据

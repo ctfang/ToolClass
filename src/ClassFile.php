@@ -15,10 +15,11 @@ class ClassFile
     static public function classinfo( $filename )
     {
         if( !is_file($filename) ) return false;
-        
+
         $content = file_get_contents( $filename );
         // 获取类名称calssname
         $pathinfo     = pathinfo($filename);
+        $pathinfo['filename'] = explode('.',$pathinfo['filename'])[0];
         $string       = strstr($content, '{',true);
         $calssname    = strstr($string, $pathinfo['filename']);
         $calssname    = reset( explode(' ', $calssname) );
@@ -63,9 +64,9 @@ class ClassFile
             $list['name']   = trim( substr(strstr(strstr($value, '(',true), ' function '),strlen(' function ')) );
 
             // 获取注释
-            if( $remark = strstr($value,'/*') ){
+            if( $remark = strstr($value,"/*") ){
                 // 多行注释
-                $remark = strstr($remark,'*/',true);
+                $remark = strstr($remark,"*/",true);
             }elseif( $remark = strstr($string,'//') ){
                 // 单行注释
                 $remark = strstr($remark,'class ',true);
@@ -77,11 +78,11 @@ class ClassFile
 '),'',$remark) );// 替换换行
             $param = [];
             if( strpos($remark, '@')){
-                $notes = strstr($remark, '@',true);
+                $remark = strstr($remark, '@',true);
                 $param = explode( '@',$remark);
                 unset($param['0']);
             }
-            $list['notes']  = $notes;
+            $list['notes']  = $remark;
             $list['param']  = $param;
 
             $return[] = $list;
