@@ -6,13 +6,15 @@ namespace ToolClass;
  */
 class Tree {
 	/**
-     * 把返回的数据集转换成Tree
-     * @access public
-     * @param array $list 要转换的数据集
-     * @param string $pid parent标记字段
-     * @param string $level level标记字段
-     * @return array
-     */
+	 * 把返回的数据集转换成Tree
+	 * @access public
+	 * @param array $list 要转换的数据集
+	 * @param string $pk
+	 * @param string $pid parent标记字段
+	 * @param string $child
+	 * @return array
+	 * @internal param string $level level标记字段
+	 */
 	public function toTree($list=null, $pk='id',$pid = 'pid',$child = '_child'){
 		if(null === $list) {
             // 默认直接取查询返回的结果集合

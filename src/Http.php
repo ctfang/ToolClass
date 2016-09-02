@@ -7,14 +7,23 @@ namespace ToolClass;
 class Http
 {
     /**
-     * 当前url
-     * @return [type] [description]
+     * 当前完整url
+     * @return string
      */
-    static public function newUrl(){
-        $url = (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == '443') ? 'https://' : 'http://';
-        $url .= $_SERVER['HTTP_HOST'];
-        $url .= isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : urlencode($_SERVER['PHP_SELF']) . '?' . urlencode($_SERVER['QUERY_STRING']);
-        return $url;
+    static public function url(){
+        $pageURL = 'http';
+
+        if ($_SERVER["HTTPS"] == "on"){
+            $pageURL .= "s";
+        }
+        $pageURL .= "://";
+
+        if ($_SERVER["SERVER_PORT"] != "80"){
+            $pageURL .= $_SERVER["SERVER_NAME"] . ":" . $_SERVER["SERVER_PORT"] . $_SERVER["REQUEST_URI"];
+        }else{
+            $pageURL .= $_SERVER["SERVER_NAME"] . $_SERVER["REQUEST_URI"];
+        }
+        return $pageURL;
     }
     static public function toParam($array){
         foreach ($array as $key=>$value){
