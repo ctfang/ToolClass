@@ -56,48 +56,11 @@ class Http
         curl_close ( $ch );
         return $res;
     }
-   /**
-    * 模拟post请求
-    * @access public
-    * @param string $url 远程URL
-    * @param array $conf 其他配置信息
-    *        int   limit 分段读取字符个数
-    *        string post  post的内容,字符串或数组,key=value&形式
-    *        string cookie 携带cookie访问,该参数是cookie内容
-    *        string ip    如果该参数传入,$url将不被使用,ip访问优先
-    *        int    timeout 采集超时时间
-    *        bool   0 只请求 1 返回状态吗 2 返回http数据
-    * @return mixed
-    */
-    public function fsockurl($strUrl,$conf )
-    {
-        session_write_close();// 文件锁
-        $url        = parse_url( $strUrl );
-        $conf_arr = array(
-            'limit'     =>  0,
-            'post'      =>  '',
-            'cookie'    =>  session_id(),
-            'ip'        =>  '',
-            'timeout'   =>  80,
-            'block'     =>  0,
-            );
-        extract( array_merge($conf_arr, $conf) );
-        if( is_array($post) ){
-            $post = http_build_query($post);
-        }
-        $fp     = fsockopen($url['host'], 80, $errno, $errstr, $timeout);
-        if (!$fp) die( "打开fsockopen失败".$errno.$errstr );
-        fputs($fp, sprintf("POST %s%s%s HTTP/1.0\n", $url['path'], "",""));
-        fputs($fp, "Host: $url[host]\n");
-        fputs($fp, "Content-type: application/x-www-form-urlencoded\n");
-        fputs($fp, 'Cookie:'.session_name().'='.$cookie. "\n");
-        fputs($fp, "Content-length: " . strlen($post) . "\n");
-        fputs($fp, "Connection: close\n\n");   
-        fputs($fp, "{$post}\n");
-        fclose($fp);
-    }
+
     /**
      * 显示HTTP Header 信息
+     * @param string $header
+     * @param bool $echo
      * @return string
      */
     static function getHeaderInfo($header='',$echo=true) 
@@ -123,7 +86,8 @@ class Http
 
     /**
      * HTTP Protocol defined status codes
-     * @param int $num
+     * @param $code
+     * @internal param int $num
      */
     static function sendHttpStatus($code) 
     {
